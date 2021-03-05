@@ -3,7 +3,7 @@ import { useEvent } from '@cobuildlab/react-simple-state';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { OnSessionFetch } from '../session/session-events';
-import { AUTH_CLIENT_ID, AUTH_REDIRECT_URL } from '../../shared/constants';
+import { AUTH_CLIENT_ID, AUTH_LOGOUT_URL } from '../../shared/constants';
 
 export const DashoardView: React.FC = () => {
   const { logout } = useAuth0();
@@ -13,7 +13,7 @@ export const DashoardView: React.FC = () => {
   const handleLogout = useCallback(() => {
     logout({
       client_id: AUTH_CLIENT_ID,
-      returnTo: AUTH_REDIRECT_URL,
+      returnTo: AUTH_LOGOUT_URL,
     })
   }, [logout]);
 
@@ -22,9 +22,14 @@ export const DashoardView: React.FC = () => {
       <h1>Dashboard</h1>
       <h2>Welcome {user ? user.email : 'Guest'}</h2>
       {user ? (
-        <button onClick={handleLogout}>
-          Logout
-        </button>
+        <div>
+          <button onClick={() => history.push('/profile')}>
+            Profile
+          </button>
+          <button onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       ) : (
         <button onClick={() => history.push('/auth')}>
           Login

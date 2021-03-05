@@ -4,23 +4,43 @@ import { OnTokenFetched, OnSessionFetch } from './session-events';
 import { useApolloClient } from '@apollo/client';
 import { createLinkConfiguration } from '../../shared/config/apollo-link';
 import { fetchSession } from './session-actions';
-
-export const SessionContext = React.createContext<SessionContextState>({ user: null });
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const Session: React.FC<Props> = ({ children }) => {
   const [loading, setLoading] = useState(true);
+  const auth = useAuth0();
   const token = useEvent(OnTokenFetched);
   const client = useApolloClient();
 
   useEffect(() => {
-    if (token) {
-      client.setLink(createLinkConfiguration(token));
-
-      fetchSession();
-    } else {
-      setLoading(false);
+    if (auth.isLoading === false) {
+      /**
+       * If auth0 detects a user is authenticated
+       * but there is no token, fetch the token
+       */
+      if (auth.isAuthenticated === true && !token) {
+        auth.getIdTokenClaims()
+          .then(value => OnTokenFetched.dispatch(value.__raw))
+          .catch(e => console.log('getIdTokenClaims', e.message));
+      
+      /**
+       * If there is a token, simply configure the client
+       * with that token to fetch the user session
+       */
+      } else if (token) {
+        client.setLink(createLinkConfiguration(token));
+  
+        fetchSession();
+      
+      /**
+       * If there is no user authenticated,
+       * stop loading and continue with the next component
+       */
+      } else {
+        setLoading(false);
+      }
     }
-  }, [token, client]);
+  }, [token, client, auth]);
 
   useSubscription(OnSessionFetch, () => {
     setLoading(false);
@@ -28,8 +48,10 @@ export const Session: React.FC<Props> = ({ children }) => {
 
   if (loading) {
     return (
-      <h1>Loading...</h1>
-    )
+      <h1>
+        Loading...
+      </h1>
+    );
   }
 
   return (
@@ -41,9 +63,4 @@ export const Session: React.FC<Props> = ({ children }) => {
 
 type Props = {
   children: React.ReactNode
-}
-
-type SessionContextState = {
-  user: Record<string, string> | null,
-  refresh?: () => void
 }
