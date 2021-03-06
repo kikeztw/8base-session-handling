@@ -25,15 +25,15 @@ export const DashoardView: React.FC = () => {
         <div>
           <button style={{ marginRight: '5px' }} onClick={() => history.push('/profile')}>
             Profile
-          </button>
-          <button style={{ marginRight: '5px' }} onClick={handleLogout}>
-            Logout
-          </button>
+          </button>          
           <button style={{ marginRight: '5px' }} onClick={() => history.push('/admin')}>
             Admin
           </button>
-          <button onClick={() => history.push('/worker')}>
+          <button style={{ marginRight: '5px' }} onClick={() => history.push('/worker')}>
             Worker
+          </button>
+          <button onClick={handleLogout}>
+            Logout
           </button>
         </div>
       ) : (
