@@ -7,6 +7,12 @@ export const FETCH_USER_SESSION = gql`
       firstName
       lastName
       email
+      gender
+      userPhoTagUserRelation {
+        id
+        role
+        active
+      }
     }
   }
 `;

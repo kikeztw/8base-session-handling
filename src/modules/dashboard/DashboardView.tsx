@@ -23,11 +23,17 @@ export const DashoardView: React.FC = () => {
       <h2>Welcome {user ? user.email : 'Guest'}</h2>
       {user ? (
         <div>
-          <button onClick={() => history.push('/profile')}>
+          <button style={{ marginRight: '5px' }} onClick={() => history.push('/profile')}>
             Profile
           </button>
-          <button onClick={handleLogout}>
+          <button style={{ marginRight: '5px' }} onClick={handleLogout}>
             Logout
+          </button>
+          <button style={{ marginRight: '5px' }} onClick={() => history.push('/admin')}>
+            Admin
+          </button>
+          <button onClick={() => history.push('/worker')}>
+            Worker
           </button>
         </div>
       ) : (
