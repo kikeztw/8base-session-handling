@@ -4,7 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { Session } from './modules/session/Session';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from './shared/components/ProtectedRoute';
-// import { VisitorsRoute } from './shared/components/VisitorsRoute';
+import { VisitorsRoute } from './shared/components/VisitorsRoute';
 import { client } from './shared/config/apollo-client';
 import './App.css';
 
@@ -26,22 +26,21 @@ function App() {
         redirectUri={process.env.REACT_APP_AUTH_CLIENT_REDIRECT_LOGOUT}
       >
         <ApolloProvider client={client}>
-          <Auth>
-            <Session>
-              <Switch>
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/dashboard" component={DashoardView} />
-                <ProtectedRoute exact path="/profile" component={ProfileView} />
-                <ProtectedRoute perform="admin-page" exact path="/admin" component={AdminView} />
-                <ProtectedRoute perform="worker-page" exact path="/worker" component={WorkerView} />
-                <Redirect to="/dashboard" />
-              </Switch>
-            </Session>
-          </Auth>
+          <Switch>
+            <VisitorsRoute exact path="/login" component={Login} />
+            <Auth>
+              <Session>
+                  <Route exact path="/dashboard" component={DashoardView} />
+                  <ProtectedRoute exact path="/profile" component={ProfileView} />
+                  <ProtectedRoute perform="admin-page" exact path="/admin" component={AdminView} />
+                  <ProtectedRoute perform="worker-page" exact path="/worker" component={WorkerView} />
+                  <Redirect to="/dashboard" />
+              </Session>
+            </Auth>   
+            </Switch>
         </ApolloProvider>
       </Auth0Provider> 
     </BrowserRouter>
-   
   );
 }
 

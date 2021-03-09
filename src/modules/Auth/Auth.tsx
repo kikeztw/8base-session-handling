@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useApolloClient } from '@apollo/client';
 import { IdToken, useAuth0 } from '@auth0/auth0-react';
 /*
@@ -11,9 +12,10 @@ import { createLinkConfiguration } from '../../shared/config/apollo-link'
 
 
 export const Auth: React.FC = ({ children }) => {
+  const history = useHistory();
   const client = useApolloClient();
   const [loading, setLoading] = useState(true);
-  const { getIdTokenClaims, isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
+  const { getIdTokenClaims, isAuthenticated, isLoading, /* loginWithRedirect*/ } = useAuth0();
 
   useEffect(() => {
     const handleAuthentication = async (): Promise<void> => {
@@ -62,8 +64,8 @@ export const Auth: React.FC = ({ children }) => {
         handleAuthentication();
       }else{
         // or redirect to login page
-        // history.push('/login');
-        loginWithRedirect();
+        history.push('/login');
+        // loginWithRedirect();
       }
     }
 
