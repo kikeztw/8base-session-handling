@@ -6,7 +6,7 @@ import { OnSessionFetch } from '../session/session-events';
 import { AUTH_CLIENT_ID, AUTH_LOGOUT_URL } from '../../shared/constants';
 
 export const DashoardView: React.FC = () => {
-  const { logout } = useAuth0();
+  const { logout, loginWithRedirect, isAuthenticated } = useAuth0();
   const history = useHistory();
   const user = useEvent(OnSessionFetch);
 
@@ -21,7 +21,7 @@ export const DashoardView: React.FC = () => {
     <div>
       <h1>Dashboard</h1>
       <h2>Welcome {user ? user.email : 'Guest'}</h2>
-      {user ? (
+      {isAuthenticated ? (
         <div>
           <button style={{ marginRight: '5px' }} onClick={() => history.push('/profile')}>
             Profile
@@ -37,7 +37,7 @@ export const DashoardView: React.FC = () => {
           </button>
         </div>
       ) : (
-        <button onClick={() => history.push('/auth')}>
+        <button onClick={() => loginWithRedirect()}>
           Login
         </button>
       )}

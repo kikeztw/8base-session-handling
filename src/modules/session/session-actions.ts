@@ -7,11 +7,16 @@ export const fetchSession = createAction(
   OnSessionFetch,
   OnSessionFetchError,
   async (): Promise<{ id: string, email: string } | null> => {
-    
-    const { data: { user } } = await client.query<{ user: { id: string, email: string } | null}>({
-      query: FETCH_USER_SESSION,
-      fetchPolicy: 'network-only',
-    });
+    let response: any 
+    try {
+      response = await client.query<{ user: { id: string, email: string } | null}>({
+        query: FETCH_USER_SESSION,
+        fetchPolicy: 'network-only',
+      });
+    } catch (error) {
+      console.error(JSON.stringify(error, null, 2))
+    }
+    const { data: { user } } = response;
 
     return user;
   }

@@ -7,10 +7,11 @@ import {
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { setContext } from '@apollo/client/link/context';
-import { WORKSPACE_ENDPOINT, WORKSPACE_NAME, WORKSPACE_ID } from '../constants';
 
 export function createLinkConfiguration (token?: string): ApolloLink {
-  const httpLink = createHttpLink({ uri: WORKSPACE_ENDPOINT });
+  const httpLink = createHttpLink({ uri: process.env.REACT_APP_8BASE_WORKSPACE_ENDPOINT });
+
+  console.log('tokne', token);
 
   const authLink = setContext((_, { headers }) => ({
     headers: {
@@ -25,8 +26,8 @@ export function createLinkConfiguration (token?: string): ApolloLink {
       reconnect: true,
       connectionParams: {
         token: token ? token : process.env.REACT_APP_AUTH_GUEST_TOKEN,
-        workspaceId: WORKSPACE_ID,
-        environmentName: WORKSPACE_NAME,
+        workspaceId: process.env.REACT_APP_8BASE_WORKSPACE_ID,
+        environmentName: process.env.REACT_APP_8BASE_WORKING_MAIN,
       },
     },
     webSocketImpl: class WebSocketWithoutProtocol extends WebSocket {
