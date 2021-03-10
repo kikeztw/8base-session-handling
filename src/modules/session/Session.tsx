@@ -5,7 +5,7 @@ import { fetchSession } from './session-actions';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export const Session: React.FC<Props> = ({ children }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth0();
 
   useEffect(() => {

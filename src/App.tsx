@@ -30,11 +30,10 @@ function App() {
             <VisitorsRoute exact path="/login" component={Login} />
             <Auth>
               <Session>
-                  <Route exact path="/dashboard" component={DashoardView} />
-                  <ProtectedRoute exact path="/profile" component={ProfileView} />
-                  <ProtectedRoute perform="admin-page" exact path="/admin" component={AdminView} />
-                  <ProtectedRoute perform="worker-page" exact path="/worker" component={WorkerView} />
-                  <Redirect to="/dashboard" />
+                <Route exact path="/dashboard" component={DashoardView} />
+                <Route exact path="/dashboard/2" component={DashoardView} />
+                <Route exact path="/dashboard/3" component={DashoardView} />
+                <Redirect to="/dashboard" />
               </Session>
             </Auth>   
             </Switch>
@@ -45,3 +44,9 @@ function App() {
 }
 
 export default App;
+
+/*
+ <ProtectedRoute exact path="/profile" component={ProfileView} />
+<ProtectedRoute perform="admin-page" exact path="/admin" component={AdminView} />
+<ProtectedRoute perform="worker-page" exact path="/worker" component={WorkerView} />
+*/

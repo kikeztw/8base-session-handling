@@ -63,9 +63,7 @@ export const Auth: React.FC = ({ children }) => {
         console.log('estoy autenticado')
         handleAuthentication();
       }else{
-        // or redirect to login page
-        history.push('/login');
-        // loginWithRedirect();
+        setLoading(false);
       }
     }
 
