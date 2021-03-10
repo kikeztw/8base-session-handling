@@ -73,7 +73,7 @@ export const Auth: React.FC = ({ children }) => {
 
   if(loading){
     return (
-      <div>loading...a.</div>
+      <div>loading....</div>
     )
   }
 

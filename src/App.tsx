@@ -3,7 +3,6 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { ApolloProvider } from '@apollo/client';
 import { Session } from './modules/session/Session';
 import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom';
-import { ProtectedRoute } from './shared/components/ProtectedRoute';
 import { VisitorsRoute } from './shared/components/VisitorsRoute';
 import { client } from './shared/config/apollo-client';
 import './App.css';
@@ -30,10 +29,10 @@ function App() {
             <VisitorsRoute exact path="/login" component={Login} />
             <Auth>
               <Session>
-                <Route exact path="/dashboard" component={DashoardView} />
-                <Route exact path="/dashboard/2" component={DashoardView} />
-                <Route exact path="/dashboard/3" component={DashoardView} />
-                <Redirect to="/dashboard" />
+                <Route exact path="/" component={DashoardView} />
+                <Route exact path="/b" component={ProfileView} />
+                <Route exact path="/c" component={AdminView} />
+                <Route exact path="/d" component={WorkerView} />
               </Session>
             </Auth>   
             </Switch>
